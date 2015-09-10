@@ -95,7 +95,7 @@ public abstract class AbstractRouting extends AsyncTask<Void, Void, ArrayList<Ro
         }
     }
 
-    protected void dispatchOnSuccess(PolylineOptions mOptions, Route route) {
+    protected void dispatchOnSuccess(PolylineOptions[] mOptions, Route[] route) {
         for (RoutingListener mListener : _aListeners) {
             mListener.onRoutingSuccess(mOptions, route);
         }
@@ -146,8 +146,27 @@ public abstract class AbstractRouting extends AsyncTask<Void, Void, ArrayList<Ro
             for (LatLng point : shortestRoute.getPoints()) {
                 mOptions.add(point);
             }
+            result.remove(shortestRoute);
 
-            dispatchOnSuccess(mOptions, shortestRoute);
+            Route[] routes = new Route[3];
+            PolylineOptions[] polylineOptionses = new PolylineOptions[3];
+
+            routes[0] = shortestRoute;
+            polylineOptionses[0] = mOptions;
+
+            for (Route route: result) {
+                int index = result.indexOf(route);
+                if (index < 2) {
+                    routes[index+1] = route;
+                }
+                PolylineOptions polylineOptions = new PolylineOptions();
+                for (LatLng point : shortestRoute.getPoints()) {
+                    polylineOptions.add(point);
+                }
+                polylineOptionses[index+1] = polylineOptions;
+            }
+
+            dispatchOnSuccess(polylineOptionses, routes);
         }
     }//end onPostExecute method
 
