@@ -68,9 +68,9 @@ public class Routing extends AbstractRouting {
             stringBuffer.append(AvoidKind.getRequestParam(avoidKinds));
         }
 
-        if (routeMode == RouteMode.SHORTEST) {
+//        if (routeMode == RouteMode.SHORTEST) {
             stringBuffer.append("&alternatives=true");
-        }
+//        }
 
         // sensor
         stringBuffer.append("&sensor=true");

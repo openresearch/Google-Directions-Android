@@ -146,21 +146,23 @@ public abstract class AbstractRouting extends AsyncTask<Void, Void, ArrayList<Ro
             for (LatLng point : shortestRoute.getPoints()) {
                 mOptions.add(point);
             }
+
+            int resultSize = result.size();
             result.remove(shortestRoute);
 
-            Route[] routes = new Route[3];
-            PolylineOptions[] polylineOptionses = new PolylineOptions[3];
+            Route[] routes = new Route[resultSize];
+            PolylineOptions[] polylineOptionses = new PolylineOptions[resultSize];
 
             routes[0] = shortestRoute;
             polylineOptionses[0] = mOptions;
 
             for (Route route: result) {
                 int index = result.indexOf(route);
-                if (index < 2) {
+                if (index < resultSize-1) {
                     routes[index+1] = route;
                 }
                 PolylineOptions polylineOptions = new PolylineOptions();
-                for (LatLng point : shortestRoute.getPoints()) {
+                for (LatLng point : route.getPoints()) {
                     polylineOptions.add(point);
                 }
                 polylineOptionses[index+1] = polylineOptions;
