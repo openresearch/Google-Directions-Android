@@ -4,6 +4,7 @@ import com.google.android.gms.maps.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Async Task to access the Google Direction API and return the routing data.
@@ -68,9 +69,8 @@ public class Routing extends AbstractRouting {
             stringBuffer.append(AvoidKind.getRequestParam(avoidKinds));
         }
 
-//        if (routeMode == RouteMode.SHORTEST) {
-            stringBuffer.append("&alternatives=true");
-//        }
+        stringBuffer.append("&alternatives=true");
+        stringBuffer.append("&language=" + Locale.getDefault().getLanguage());
 
         // sensor
         stringBuffer.append("&sensor=true");
