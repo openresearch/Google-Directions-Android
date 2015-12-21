@@ -128,7 +128,7 @@ public abstract class AbstractRouting extends AsyncTask<Void, Void, ArrayList<Ro
 
     @Override
     protected void onPostExecute(ArrayList<Route> result) {
-        if (result == null) {
+        if (result == null || result.isEmpty()) {
             dispatchOnFailure();
         } else {
             PolylineOptions mOptions = new PolylineOptions();
