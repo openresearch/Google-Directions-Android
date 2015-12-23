@@ -20,6 +20,7 @@ public class Route {
     private String durationText;
     private String distanceText;
     private String endAddressText;
+    private int mDurationValue = -1;
 
     public String getEndAddressText() {
         return endAddressText;
@@ -174,5 +175,12 @@ public class Route {
         this.latLgnBounds = builder.build();
     }
 
+    public void setDurationValue(int durationValue) {
+        mDurationValue = durationValue;
+    }
+
+    public int getDurationValue() {
+        return mDurationValue;
+    }
 }
 
