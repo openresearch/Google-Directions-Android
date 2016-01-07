@@ -131,41 +131,50 @@ public abstract class AbstractRouting extends AsyncTask<Void, Void, ArrayList<Ro
         if (result == null || result.isEmpty()) {
             dispatchOnFailure();
         } else {
-            PolylineOptions mOptions = new PolylineOptions();
+            PolylineOptions mFastestRoutePolylineOptions = new PolylineOptions();
 
-            Route shortestRoute = null;
-            int minDistance = Integer.MAX_VALUE;
+            Route fastestRoute = null;
+            int minDuration = Integer.MAX_VALUE;
 
             for (Route route : result) {
-                if (route.getLength() < minDistance) {
-                    shortestRoute = route;
-                    minDistance = route.getLength();
+                if (route.getDurationValue() < minDuration) {
+                    fastestRoute = route;
+                    minDuration = route.getDurationValue();
                 }
             }
 
-            for (LatLng point : shortestRoute.getPoints()) {
-                mOptions.add(point);
+            for (LatLng point : fastestRoute.getPoints()) {
+                mFastestRoutePolylineOptions.add(point);
             }
 
-            int resultSize = result.size();
-            result.remove(shortestRoute);
+            int originalResultSize = result.size();
 
-            Route[] routes = new Route[resultSize];
-            PolylineOptions[] polylineOptionses = new PolylineOptions[resultSize];
 
-            routes[0] = shortestRoute;
-            polylineOptionses[0] = mOptions;
+            Route[] routes = new Route[originalResultSize];
+            PolylineOptions[] polylineOptionses = new PolylineOptions[originalResultSize];
 
+            // add shortest route as first result
+            routes[0] = fastestRoute;
+            polylineOptionses[0] = mFastestRoutePolylineOptions;
+
+            // remove shortest route from results
+            result.remove(fastestRoute);
+
+            // add remaining results
             for (Route route: result) {
                 int index = result.indexOf(route);
-                if (index < resultSize-1) {
+
+                // sanity check for setting correct array index
+                if (index < originalResultSize-1) {
+
                     routes[index+1] = route;
+
+                    PolylineOptions polylineOptions = new PolylineOptions();
+                    for (LatLng point : route.getPoints()) {
+                        polylineOptions.add(point);
+                    }
+                    polylineOptionses[index+1] = polylineOptions;
                 }
-                PolylineOptions polylineOptions = new PolylineOptions();
-                for (LatLng point : route.getPoints()) {
-                    polylineOptions.add(point);
-                }
-                polylineOptionses[index+1] = polylineOptions;
             }
 
             dispatchOnSuccess(polylineOptionses, routes);
