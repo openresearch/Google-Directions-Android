@@ -17,6 +17,7 @@ public class Routing extends AbstractRouting {
     private final List<LatLng> waypoints;
     private final int avoidKinds;
     private final boolean optimize;
+    private final String apiKey;
 
     private Routing(Builder builder) {
         super(builder.listener);
@@ -25,10 +26,20 @@ public class Routing extends AbstractRouting {
         this.avoidKinds = builder.avoidKinds;
         this.optimize = builder.optimize;
         this.routeMode = builder.routeMode;
+        this.apiKey = builder.apiKey;
     }
 
     protected String constructURL () {
         final StringBuffer stringBuffer = new StringBuffer(AbstractRouting.DIRECTIONS_API_URL);
+
+
+        // apiKey
+        if (apiKey != null) {
+            stringBuffer.append("key=");
+            stringBuffer.append(apiKey);
+            stringBuffer.append("&");
+        }
+
 
         // origin
         final LatLng origin = waypoints.get(0);
@@ -86,14 +97,16 @@ public class Routing extends AbstractRouting {
         private int avoidKinds;
         private RoutingListener listener;
         private boolean optimize;
+        private String apiKey;
 
-        public Builder () {
+        public Builder (String apiKey) {
             this.travelMode = TravelMode.DRIVING;
             this.routeMode = RouteMode.FASTEST;
             this.waypoints = new ArrayList<>();
             this.avoidKinds = 0;
             this.listener = null;
             this.optimize = false;
+            this.apiKey = apiKey;
         }
 
         public Builder travelMode (TravelMode travelMode) {
