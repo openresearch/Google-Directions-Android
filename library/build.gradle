@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: '*.jar')
+    implementation fileTree(dir: 'libs', include: '*.jar')
     implementation "com.google.android.gms:play-services-maps:$playServicesVersion"
 }
 // This is the library version used when deploying the artifact
@@ -11,7 +11,7 @@ version = "1.0.1"
 
 android {
     compileSdkVersion 22
-    buildToolsVersion '26.0.3'
+    buildToolsVersion '27.0.3'
 
     defaultConfig {
         minSdkVersion 10
