@@ -10,12 +10,12 @@ dependencies {
 version = "1.0.1"
 
 android {
-    compileSdkVersion 28
-    buildToolsVersion '28.0.3'
+    compileSdkVersion project.compileSdk
+    buildToolsVersion project.buildTools
 
     defaultConfig {
         minSdkVersion 10
-        targetSdkVersion 28
+        targetSdkVersion project.targetSdk
     }
     lintOptions {
         abortOnError false
