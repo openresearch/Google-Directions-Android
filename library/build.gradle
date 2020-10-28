@@ -14,7 +14,7 @@ android {
     buildToolsVersion project.buildTools
 
     defaultConfig {
-        minSdkVersion 10
+        minSdkVersion 21
         targetSdkVersion project.targetSdk
     }
     lintOptions {
